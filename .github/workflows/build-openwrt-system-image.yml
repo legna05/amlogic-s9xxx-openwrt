@@ -456,6 +456,9 @@ jobs:
         run: |
           [[ -f "${FEEDS_CONF}" ]] && cp -f ${FEEDS_CONF} openwrt/feeds.conf.default
           chmod +x ${DIY_P1_SH}
+          chmod +x ${CUSTOM_SCRIPT_1}
+          chmod +x ${CUSTOM_SCRIPT_2}
+          chmod +x ${CUSTOM_SCRIPT_3}
           cd openwrt/
           ${{ github.workspace }}/${DIY_P1_SH}
 
