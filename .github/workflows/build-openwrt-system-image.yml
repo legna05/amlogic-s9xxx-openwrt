@@ -439,7 +439,7 @@ jobs:
           REPO_BRANCH="${source_branch_input##*_}"
 
           # Clone the source code repository
-          git clone -q --single-branch --depth=1 --branch=${REPO_BRANCH} ${REPO_URL} openwrt
+          git clone -q --single-branch --depth=1 --branch=owrt https://github.com/VIKINGYFY/immortalwrt.git openwrt
           ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
           ln -sf /builder/openwrt /home/runner/work/_actions/ophub/amlogic-s9xxx-openwrt/main/openwrt
 
