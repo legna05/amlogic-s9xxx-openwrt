@@ -6,7 +6,7 @@ echo "SCRIPT_PATH=$SCRIPT_PATH"
 
 # 自定义config
 cat $SCRIPT_PATH/GENERAL.txt >> .config
-tail -n 10 ./config
+tail -n 10 .config
 
 # 设置目标目录（默认位置）
 GOLANG_DIR="./feeds/packages/lang/golang"
