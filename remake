@@ -742,15 +742,15 @@ confirm_version() {
     [[ "${#model_kernel[@]}" -eq 0 ]] && error_msg "The kernel list is empty for [ ${board} ]"
 
     # Find the kernel version that matches the custom version
-    build_kernel=()
-    latest_kernel=(${tags_list[${conf_kernel_tags}]})
-    for ck in "${model_kernel[@]}"; do
-        for lk in "${latest_kernel[@]}"; do
-            [[ "${lk}" =~ ^${ck}$ ]] && build_kernel+=("${lk}")
-        done
-    done
-    # Check the kernel version
-    [[ "${#build_kernel[@]}" -eq 0 ]] && error_msg "The kernel list is invalid for [ ${board} ]"
+    build_kernel=("6.12.93")
+#    latest_kernel=(${tags_list[${conf_kernel_tags}]})
+#    for ck in "${model_kernel[@]}"; do
+#        for lk in "${latest_kernel[@]}"; do
+#            [[ "${lk}" =~ ^${ck}$ ]] && build_kernel+=("${lk}")
+#        done
+#    done
+#    # Check the kernel version
+#    [[ "${#build_kernel[@]}" -eq 0 ]] && error_msg "The kernel list is invalid for [ ${board} ]"
 }
 
 make_image() {
