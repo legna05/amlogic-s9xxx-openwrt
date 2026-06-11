@@ -403,15 +403,7 @@ jobs:
 
       - name: Create virtual disk for extended storage
         run: |
-          root_size=$(expr $(df -h / | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 4)
-          sudo truncate -s "${root_size}"G /root.img
-          sudo truncate -s 7680M /run/qemu/cache.img
-          sudo losetup /dev/loop8 /root.img
-          sudo losetup /dev/loop9 /run/qemu/cache.img
-          sudo make-bcache -B /dev/loop8 -C /dev/loop9
-          sudo mkfs.xfs /dev/bcache0
           sudo mkdir /builder
-          sudo mount /dev/bcache0 /builder
           sudo chown runner:runner /builder
           df -Th
           lsblk
