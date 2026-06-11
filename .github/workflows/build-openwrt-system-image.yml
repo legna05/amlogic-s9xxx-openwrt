@@ -408,7 +408,7 @@ jobs:
           sudo losetup /dev/loop8 /root.img
           sudo losetup /dev/loop9 /run/qemu/cache.img
           sudo make-bcache -B /dev/loop8 -C /dev/loop9
-          echo writeback > /sys/block/bcache0/bcache/cache_mode
+          echo writeback > /sys/*/*/bcache/cache_mode
           sudo mkfs.xfs /dev/bcache0
           sudo mkdir /builder
           sudo mount /dev/bcache0 /builder
