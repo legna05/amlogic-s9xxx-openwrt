@@ -386,6 +386,7 @@ jobs:
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
           sudo -E apt-get -y install $(curl -fsSL https://ophub.org/ubuntu2404-make-openwrt-depends)
+          sudo -E apt-get -y install bcache-tools
           sudo -E systemctl daemon-reload
           #sudo -E apt-get -y full-upgrade
           sudo -E apt-get -y autoremove --purge
@@ -401,21 +402,19 @@ jobs:
 
       - name: Create virtual disk for extended storage
         run: |
-          mnt_size=$(expr $(df -h /mnt | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 1)
           root_size=$(expr $(df -h / | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 4)
-          sudo truncate -s "${mnt_size}"G /mnt/mnt.img
           sudo truncate -s "${root_size}"G /root.img
-          sudo losetup /dev/loop6 /mnt/mnt.img
-          sudo losetup /dev/loop7 /root.img
-          sudo pvcreate /dev/loop6
-          sudo pvcreate /dev/loop7
-          sudo vgcreate github /dev/loop6 /dev/loop7
-          sudo lvcreate -n runner -l 100%FREE github
-          sudo mkfs.xfs -f -i sparse=0 -b size=4096 /dev/github/runner
-          sudo mkdir -p /builder
-          sudo mount /dev/github/runner /builder
-          sudo chown -R runner:runner /builder
+          sudo truncate -s 7680M /run/qemu/cache.img
+          sudo losetup /dev/loop8 /root.img
+          sudo losetup /dev/loop9 /run/qemu/cache.img
+          sudo make-bcache -B /dev/loop8 -C /dev/loop9
+          echo writeback > /sys/block/bcache0/bcache/cache_mode
+          sudo mkfs.xfs /dev/bcache0
+          sudo mkdir /builder
+          sudo mount /dev/bcache0 /builder
+          sudo chown runner:runner /builder
           df -Th
+          lsblk
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Clone source code [ ${{ matrix.branch }} ]
@@ -477,7 +476,7 @@ jobs:
       - name: Load custom configuration
         run: |
           [[ -d "files" ]] && mv -f files openwrt/files
-          [[ -e "${CONFIG_FILE}" ]] && cp -f ${CONFIG_FILE} openwrt/.config
+
           chmod +x ${DIY_P2_SH}
           cd openwrt/
           ${{ github.workspace }}/${DIY_P2_SH} "${{ inputs.openwrt_ip }}" "${{ inputs.use_ccache }}"
