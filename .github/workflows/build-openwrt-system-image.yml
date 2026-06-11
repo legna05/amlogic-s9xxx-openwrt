@@ -403,7 +403,15 @@ jobs:
 
       - name: Create virtual disk for extended storage
         run: |
+          root_size=$(expr $(df -h / | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 4)
+          sudo truncate -s "${root_size}"G /root.img
+          sudo truncate -s 7680M /run/qemu/cache.img
+          sudo losetup /dev/loop8 /root.img
+          sudo losetup /dev/loop9 /run/qemu/cache.img
+          sudo make-bcache -B /dev/loop8 -C /dev/loop9
+          sudo mkfs.xfs /dev/bcache0
           sudo mkdir /builder
+          sudo mount /dev/bcache0 /builder
           sudo chown runner:runner /builder
           df -Th
           lsblk
@@ -511,6 +519,7 @@ jobs:
             openwrt-${{ env.REPO_NAME }}-
 
       - name: Cache Tool
+        id: cache-tool
         uses: actions/cache@v5
         with:
           path: |
@@ -521,14 +530,13 @@ jobs:
             openwrt-${{ env.REPO_NAME }}-tool-
 
       - name: Update Caches
+        if: ${{steps.cache-tool.outputs.cache-hit == 'true'}}
         run: |
           if [ -d "/builder/openwrt/staging_dir" ]; then
             find "/builder/openwrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
               find "$DIR" -type f -exec touch {} +
             done
-
             mkdir -p /builder/openwrt/tmp && echo "1" > /builder/openwrt/tmp/.build
-
             echo "toolchain skiped done!"
           else
             echo "caches missed!"
