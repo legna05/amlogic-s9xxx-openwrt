@@ -378,6 +378,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
+          sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
           docker rmi -f $(docker images -q) 2>/dev/null || true
           [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android 2>/dev/null
@@ -429,7 +430,7 @@ jobs:
           REPO_BRANCH="${source_branch_input##*_}"
 
           # Clone the source code repository
-          git clone -q --single-branch --depth=1 --branch=${REPO_BRANCH} ${REPO_URL} openwrt
+          git clone -q --single-branch --depth=1 --branch=owrt https://github.com/VIKINGYFY/immortalwrt openwrt
           ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
           ln -sf /builder/openwrt /home/runner/work/_actions/ophub/amlogic-s9xxx-openwrt/main/openwrt
 
@@ -467,7 +468,7 @@ jobs:
       - name: Load custom configuration
         run: |
           [[ -d "files" ]] && mv -f files openwrt/files
-          [[ -e "${CONFIG_FILE}" ]] && cp -f ${CONFIG_FILE} openwrt/.config
+          
           chmod +x ${DIY_P2_SH}
           cd openwrt/
           ${{ github.workspace }}/${DIY_P2_SH} "${{ inputs.openwrt_ip }}" "${{ inputs.use_ccache }}"
@@ -508,6 +509,30 @@ jobs:
           key: openwrt-${{ env.REPO_NAME }}-${{ env.source_hash }}
           restore-keys: |
             openwrt-${{ env.REPO_NAME }}-
+
+      - name: Cache Tool
+        uses: actions/cache@v5
+        with:
+          path: |
+            /builder/openwrt/staging_dir/tool*
+            /builder/openwrt/staging_dir/host*
+          key: openwrt-${{ env.REPO_NAME }}-tool-1
+          restore-keys: |
+            openwrt-${{ env.REPO_NAME }}-tool-
+
+      - name: Update Caches
+        run: |
+          if [ -d "/builder/openwrt/staging_dir" ]; then
+            find "/builder/openwrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+              find "$DIR" -type f -exec touch {} +
+            done
+
+            mkdir -p /builder/openwrt/tmp && echo "1" > /builder/openwrt/tmp/.build
+
+            echo "toolchain skiped done!"
+          else
+            echo "caches missed!"
+          fi
 
       - name: Compile the OpenWrt firmware
         id: compile
