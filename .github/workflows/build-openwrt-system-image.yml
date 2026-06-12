@@ -421,7 +421,6 @@ jobs:
           git clone -q --single-branch --depth=1 --branch=owrt https://github.com/VIKINGYFY/immortalwrt openwrt
           ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
           tree /home/runner/work/_actions/
-          ln -sf /builder/openwrt /home/runner/work/_actions/legna05/amlogic-s9xxx-openwrt/main/openwrt
 
           # Export build metadata
           echo "build_tag=OpenWrt_${{ matrix.branch }}_${{ inputs.openwrt_storage }}_$(date +"%Y.%m")" >> ${GITHUB_ENV}
