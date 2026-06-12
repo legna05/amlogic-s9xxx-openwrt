@@ -411,7 +411,7 @@ jobs:
       - name: Clone source code [ ${{ matrix.branch }} ]
         id: codes
         working-directory: /builder
-        if: ${{ steps.init.outputs.status == 'success' && !cancelled() }}
+
         run: |
           # Determine the OpenWrt source code repository
           if [[ "${{ matrix.branch }}" =~ ^openwrt ]]; then
