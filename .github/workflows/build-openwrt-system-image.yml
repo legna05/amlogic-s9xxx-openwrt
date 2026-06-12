@@ -483,12 +483,15 @@ jobs:
           # Get the latest source hash from the kernel repository
           repo_path="$(echo "${{ env.REPO_URL }}" | awk -F"github.com/" '{print $2}')"
           api_url="https://api.github.com/repos/${repo_path}/git/ref/heads/${{ env.REPO_BRANCH }}"
+          echo "api_url:$api_url"
           source_hash=$(curl -fsSL -m 20 \
               -H "Accept: application/vnd.github+json" \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               ${api_url} |
               jq -r '.object.sha'
           )
+          echo "source_hash_from_api:$source_hash"
+          
           [[ -z "${source_hash}" || "${source_hash}" == "null" ]] && source_hash="${{ github.sha }}"
           echo "source_hash=${source_hash}" >> ${GITHUB_ENV}
           echo "status=success" >> ${GITHUB_OUTPUT}
