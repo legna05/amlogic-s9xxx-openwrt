@@ -552,7 +552,6 @@ jobs:
           [[ -d "output" ]] || mkdir output
           cp -f bin/targets/*/*/*rootfs.tar.gz output/
           cp -f .config output/config
-          ls -A | grep -vE '^(output|\.ccache)$' | xargs rm -rf || true
 
           # Export build metadata
           df -hT ${PWD}
