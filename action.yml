@@ -111,7 +111,7 @@ runs:
         [[ -n "${{ inputs.openwrt_ip }}"     ]] && make_args+=(-p "${{ inputs.openwrt_ip }}")
         [[ -n "${{ inputs.openwrt_size }}"   ]] && make_args+=(-s "${{ inputs.openwrt_size }}")
         [[ -n "${builder_name}"              ]] && make_args+=(-n "${builder_name}")
-        sh +x ./remake "${make_args[@]}" >> log
+        bash +x ./remake "${make_args[@]}" >> log
         cat log
         cd ${{ github.action_path }}
         # Copy OpenWrt rootfs.tar.gz file to the output directory
