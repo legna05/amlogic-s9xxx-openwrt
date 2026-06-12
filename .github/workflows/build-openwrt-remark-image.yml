@@ -122,7 +122,7 @@ jobs:
           openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.06/immortalwrt-armsr-armv8-rootfs.tar.gz
           openwrt_ip: 192.168.1.99
           openwrt_board: dg3399
-          openwrt_kernel: 6.12.y
+          openwrt_kernel: 6.12.y_6.18.y
           auto_kernel: true
           kernel_repo: ophub/kernel
           kernel_usage: stable
