@@ -82,6 +82,40 @@ jobs:
           lsblk
           echo "status=success" >> ${GITHUB_OUTPUT}
 
+      - name: Clone source code [ ${{ matrix.branch }} ]
+        id: codes
+        working-directory: /builder
+        run: |
+          # Determine the OpenWrt source code repository
+          if [[ "${{ matrix.branch }}" =~ ^openwrt ]]; then
+              REPO_URL="https://github.com/openwrt/openwrt"
+          elif [[ "${{ matrix.branch }}" =~ ^lede ]]; then
+              REPO_URL="https://github.com/coolsnowwolf/lede"
+          elif [[ "${{ matrix.branch }}" =~ ^immortalwrt ]]; then
+              REPO_URL="https://github.com/immortalwrt/immortalwrt"
+          else
+              echo "Error: Unknown source code repository."
+              exit 1
+          fi
+          source_branch_input="${{ matrix.branch }}"
+          REPO_NAME="${source_branch_input%_*}"
+          REPO_BRANCH="${source_branch_input##*_}"
+
+          # Clone the source code repository
+          git clone -q --single-branch --depth=1 --branch=owrt https://github.com/VIKINGYFY/immortalwrt openwrt
+          ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
+          tree /home/runner/work/_actions/
+          ln -sf /builder/openwrt /home/runner/work/_actions/legna05/amlogic-s9xxx-openwrt/main/openwrt
+
+          # Export build metadata
+          echo "build_tag=OpenWrt_${{ matrix.branch }}_${{ inputs.openwrt_storage }}_$(date +"%Y.%m")" >> ${GITHUB_ENV}
+          echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]\nREPO_NAME: [ ${REPO_NAME} ]"
+          df -hT ${PWD}
+          echo "REPO_URL=${REPO_URL}" >> ${GITHUB_ENV}
+          echo "REPO_NAME=${REPO_NAME}" >> ${GITHUB_ENV}
+          echo "REPO_BRANCH=${REPO_BRANCH}" >> ${GITHUB_ENV}
+          echo "status=success" >> ${GITHUB_OUTPUT}
+
       - name: Package OpenWrt for target boards
         uses: legna05/amlogic-s9xxx-openwrt@main
         with:
@@ -105,3 +139,17 @@ jobs:
           replaces_artifacts: true
           make_latest: true
           gh_token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ### OpenWrt Image Information
+            - Default IP: `192.168.1.1`
+            - Default username: `root`
+            - Default password: `password`
+            - Default WIFI name: `OpenWrt`
+            - Default WIFI password: `none`
+            ### Install to EMMC
+            - Login to OpenWrt → `System` → `Amlogic Service` → `Install OpenWrt`
+            ### OpenWrt source code
+            - [${{ env.REPO_NAME }}](${{ env.REPO_URL }}/tree/${{ env.REPO_BRANCH }})
+            ### Applicable Platform
+            - 🐧 `arm64`
+            - 🐋 Docker image: https://hub.docker.com/u/ophub
