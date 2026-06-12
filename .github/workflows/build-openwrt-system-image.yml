@@ -422,7 +422,8 @@ jobs:
           # Clone the source code repository
           git clone -q --single-branch --depth=1 --branch=owrt https://github.com/VIKINGYFY/immortalwrt openwrt
           ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
-          tree /home/runner/work/_actions/
+          tree /home/runner/work/
+          ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
           # Export build metadata
           echo "build_tag=OpenWrt_${{ matrix.branch }}_${{ inputs.openwrt_storage }}_$(date +"%Y.%m")" >> ${GITHUB_ENV}
@@ -507,9 +508,9 @@ jobs:
           path: |
             /builder/openwrt/staging_dir/tool*
             /builder/openwrt/staging_dir/host*
-          key: openwrt-${{ env.REPO_NAME }}-tool-1
+          key: openwrt-tool-${{ env.REPO_NAME }}
           restore-keys: |
-            openwrt-${{ env.REPO_NAME }}-tool-
+            openwrt-tool-
 
       - name: Update Caches
         if: ${{steps.cache-tool.outputs.cache-hit == 'true'}}
