@@ -9,14 +9,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-
-      kernel_repo:
-        description: "Set the kernel repository"
-        required: false
-        default: "ophub/kernel"
-        type: choice
-        options:
-          - ophub/kernel
       openwrt_storage:
         description: "Select image storage type."
         required: false

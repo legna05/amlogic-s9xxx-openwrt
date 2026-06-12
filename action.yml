@@ -112,7 +112,7 @@ runs:
         [[ -n "${{ inputs.openwrt_size }}"   ]] && make_args+=(-s "${{ inputs.openwrt_size }}")
         [[ -n "${builder_name}"              ]] && make_args+=(-n "${builder_name}")
         sh +x ./remake "${make_args[@]}" >> log
-
+        cat log
         cd ${{ github.action_path }}
         # Copy OpenWrt rootfs.tar.gz file to the output directory
         echo -e "Contents of the [ ${openwrt_savepath} ] directory: \n$(ls -lh ${openwrt_savepath} 2>/dev/null)"
@@ -128,7 +128,6 @@ runs:
         echo -e "PACKAGED_OUTPUTDATE: $(date +"%m.%d.%H%M")"
         echo -e "PACKAGED_STATUS: success"
         echo -e "PACKAGED_OUTPUTPATH files: \n$(ls -lh ${PWD}/${openwrt_outpath}/ 2>/dev/null)"
-        cat log
 branding:
   icon: "terminal"
   color: "gray-dark"
