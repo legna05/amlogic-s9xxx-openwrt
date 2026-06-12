@@ -116,7 +116,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Package OpenWrt for target boards
-        uses: ophub/amlogic-s9xxx-openwrt@main
+        uses: legna05/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.06/immortalwrt-armsr-armv8-rootfs.tar.gz
           openwrt_ip: 192.168.1.99
