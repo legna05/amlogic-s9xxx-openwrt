@@ -50,7 +50,7 @@
 #
 # Related file storage path
 current_path="${PWD}"
-echo $(tree -L 10$current_path)
+echo $(tree -L 10 $current_path)
 make_path="${current_path}/openwrt"
 tmp_path="${make_path}/tmp"
 out_path="${make_path}/out"
