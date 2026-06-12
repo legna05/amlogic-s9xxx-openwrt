@@ -493,6 +493,7 @@ jobs:
           echo "source_hash_from_api:$source_hash"
           
           [[ -z "${source_hash}" || "${source_hash}" == "null" ]] && source_hash="${{ github.sha }}"
+          echo "source_hash=${source_hash}"
           echo "source_hash=${source_hash}" >> ${GITHUB_ENV}
           echo "status=success" >> ${GITHUB_OUTPUT}
 
