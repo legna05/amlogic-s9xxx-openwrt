@@ -92,7 +92,7 @@ jobs:
           elif [[ "${{ matrix.branch }}" =~ ^lede ]]; then
               REPO_URL="https://github.com/coolsnowwolf/lede"
           elif [[ "${{ matrix.branch }}" =~ ^immortalwrt ]]; then
-              REPO_URL="https://github.com/immortalwrt/immortalwrt"
+              REPO_URL="https://github.com/VIKINGYFY/immortalwrt"
           else
               echo "Error: Unknown source code repository."
               exit 1
