@@ -10,3 +10,4 @@ $feeds_path install -a -f -p nikki
 $feeds_path install -a -f -p gecoosac
 $feeds_path install -a -f -p ddns_go
 $feeds_path install -a -f -p socat
+$feeds_path install -a -f -p theme_argon

@@ -66,3 +66,8 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 
 #修改默认主题
 sed -i "s/luci-theme-bootstrap/luci-theme-argon/g" $(find ./feeds/luci/collections/ -type f -name "Makefile")
+
+#修改argon主题字体和颜色
+echo "start process argon config"
+sed -i "s/primary '.*'/primary '#e198b4'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" ./feeds/theme_argon/luci-app-argon-config/root/etc/config/argon
+echo "luci-theme-argon has been fixed!"
