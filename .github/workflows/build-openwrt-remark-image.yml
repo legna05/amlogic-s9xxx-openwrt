@@ -399,7 +399,7 @@ jobs:
       - name: Package OpenWrt for target boards
         uses: legna05/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: https://github.com/legna05/OpenWRT-CI/releases/download/ROCKCHIP-VIKINGYFY-owrt-26.06.25-09.50.14/rockchip-armv8-rootfs-VIKINGYFY-owrt-wifi-yes-26.06.25-09.50.14.tar.gz
+          openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.06/immortalwrt-armsr-armv8-rootfs.tar.gz
           openwrt_ip: 192.168.1.99
           openwrt_board: dg3399
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
