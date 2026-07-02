@@ -28,7 +28,6 @@ repos=(
     "ddns_go           https://github.com/sirpdboy/luci-app-ddns-go.git;main"
     "socat             https://github.com/chenmozhijin/luci-app-socat.git;main"
     "theme_argon       https://github.com/sbwml/luci-theme-argon.git;openwrt-25.12"
-    "smart_dns         https://github.com/pymumu/luci-app-smartdns.git;master"
 )
 
 # 批量添加
