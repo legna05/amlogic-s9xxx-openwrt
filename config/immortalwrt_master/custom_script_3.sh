@@ -177,6 +177,8 @@ install_smartdns() {
     mv "$WORKINGDIR/openwrt-smartdns-master/"* "$WORKINGDIR/"
     rmdir "$WORKINGDIR/openwrt-smartdns-master"
     rm "$WORKINGDIR/master.zip"
+    sed -i 's/^PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=skip/' "$WORKINGDIR"/Makefile
+    cat "$WORKINGDIR"/Makefile | grep PKG_MIRROR_HASH
 
     local LUCIBRANCH="master"
     local LUCI_WD="./feeds/luci/applications/luci-app-smartdns"
