@@ -71,3 +71,6 @@ sed -i "s/luci-theme-bootstrap/luci-theme-argon/g" $(find ./feeds/luci/collectio
 echo "start process argon config"
 sed -i "s/primary '.*'/primary '#e198b4'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" ./feeds/theme_argon/luci-app-argon-config/root/etc/config/argon
 echo "luci-theme-argon has been fixed!"
+
+#add_turboacc
+curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
