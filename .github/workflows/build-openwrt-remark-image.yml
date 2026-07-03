@@ -400,7 +400,7 @@ jobs:
       - name: Package OpenWrt for target boards
         uses: legna05/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.06/immortalwrt-armsr-armv8-rootfs.tar.gz
+          openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.07/immortalwrt-armsr-armv8-rootfs.tar.gz
           openwrt_ip: 192.168.2.99
           openwrt_board: dg3399
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
