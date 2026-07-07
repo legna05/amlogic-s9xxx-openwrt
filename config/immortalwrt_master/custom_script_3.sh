@@ -196,10 +196,12 @@ install_smartdns() {
 }
 
 install_mosdns() {
+    section_start "安装 MosDNS"
     # remove v2ray-geodata package from feeds
     rm -rf feeds/packages/net/v2ray-geodata
     git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
     git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+    section_end "安装 MosDNS"
 }
 
 # 10. 安装 feeds（必须放在最后）
