@@ -302,10 +302,12 @@ on:
         description: "Set OpenWrt default IP address."
         required: false
         default: "192.168.2.99"
+        type: string
       openwrt_path:
         description: "Root Fs Path"
         required: false
         default: ""
+        type: string
 
 env:
   TZ: Etc/UTC
