@@ -298,6 +298,14 @@ on:
         options:
           - save
           - temp
+      openwrt_ip:
+        description: "Set OpenWrt default IP address."
+        required: false
+        default: "192.168.2.99"
+      openwrt_path:
+        description: "Root Fs Path"
+        required: false
+        default: ""
 env:
   TZ: Etc/UTC
   CCACHE_DIR: /builder/openwrt/.ccache
@@ -400,8 +408,8 @@ jobs:
       - name: Package OpenWrt for target boards
         uses: legna05/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: https://github.com/legna05/amlogic-s9xxx-openwrt/releases/download/OpenWrt_immortalwrt_master_save_2026.07/immortalwrt-armsr-armv8-rootfs.tar.gz
-          openwrt_ip: 192.168.2.99
+          openwrt_path: ${{ openwrt_path }}
+          openwrt_ip: ${{ openwrt_ip }}
           openwrt_board: dg3399
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
           auto_kernel: ${{ inputs.auto_kernel }}
