@@ -433,7 +433,7 @@ jobs:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             ### OpenWrt Image Information
-            - Default IP: `192.168.1.1`
+            - Default IP: `${{ inputs.openwrt_ip }}`
             - Default username: `root`
             - Default password: `password`
             - Default WIFI name: `OpenWrt`
