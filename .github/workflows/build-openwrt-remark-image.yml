@@ -411,8 +411,8 @@ jobs:
       - name: Package OpenWrt for target boards
         uses: legna05/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: ${{ openwrt_path }}
-          openwrt_ip: ${{ openwrt_ip }}
+          openwrt_path: ${{ inputs.openwrt_path }}
+          openwrt_ip: ${{ inputs.openwrt_ip }}
           openwrt_board: dg3399
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
           auto_kernel: ${{ inputs.auto_kernel }}
