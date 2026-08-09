@@ -273,6 +273,16 @@ jobs:
 
           echo "status=success" >> ${GITHUB_OUTPUT}
 
+      - name: Compile the MosDNS
+        id: compile MosDNS
+        run: |
+          cd openwrt/
+          echo "" >> .config
+          echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> .config
+          make package/mosdns/luci-app-mosdns/compile V=s
+
+          echo "status=success" >> ${GITHUB_OUTPUT}
+
       - name: Clean up build files and reclaim disk space
         id: clean
         if: ${{ steps.compile.outputs.status == 'success' && !cancelled() }}

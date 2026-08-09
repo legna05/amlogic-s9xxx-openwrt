@@ -195,6 +195,14 @@ install_smartdns() {
     section_end "安装 SmartDNS"
 }
 
+mosdns_feeds() {
+    # remove v2ray-geodata package from feeds
+    rm -rf feeds/packages/net/v2ray-geodata
+
+    git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+    git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+}
+
 # 10. 安装 feeds（必须放在最后）
 install_feeds() {
     section_start "安装 feeds"
@@ -215,6 +223,7 @@ main() {
     configure_argon
     add_turboacc
     install_smartdns
+    mosdns_feeds
     install_feeds
     info "========== 所有预处理步骤成功完成 =========="
 }
