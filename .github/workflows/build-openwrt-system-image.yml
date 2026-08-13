@@ -274,7 +274,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Compile the MosDNS
-        id:  mosDNS
+        id: compile MosDNS
         run: |
           cd openwrt/
           echo "" >> .config
